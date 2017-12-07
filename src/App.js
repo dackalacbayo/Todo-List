@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import TodoInput from './component/TodoInput'
+import TodoForm from './component/TodoForm'
+import request from 'superagent'
 
 class App extends Component {
 
   state = {
-    search:'',
     note: '',
-    details:{},
-    notes:[]
+    notes:[],
+    status:'',
+    count:0,
+    id:1,
+    countdone:0
   }
 
 
@@ -17,36 +20,67 @@ class App extends Component {
     this.setState({[prop]:e.target.value})
   }
 
-
   handleSave(){
     var obj = {
-      id:this.state.details.id,
+      id:this.state.id,
+      status:'Active',
       note:this.state.note
     }
+
     this.setState({
       notes: this.state.notes.concat(obj),
-      note: ''
+      note: '',
+      count: this.state.count + 1,
+      id: this.state.id + 1
     })
     }
 
+    handleDelete(i){
+      console.log(this.state.id)
+        this.setState({
+          count: this.state.count - 1
+        })
+
+      }
+
+    handleDone(data){
+      console.log('Dataaaaa',data)
+      console.log('Stat:',statdone)
+
+      var statdone = this.state.notes
+      .map((msg)=> {
+          if(msg.id === data.id){
+
+          }
+          return statdone
+      })
+
+      this.setState({
+        count: this.state.count - 1,
+        status:'Done',
+        countdone: this.state.countdone + 1
+      })
+    }
 
   render() {
     console.log(this.state)
     return (
-      <div className="App">
+      <div className="App-container">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
 
-        <TodoInput
+        <div className="todos-container">
+        <TodoForm
           notes = {this.state.notes}
           note = {this.state.note}
+          count = {this.state.count}
+          countdone = {this.state.countdone}
           handleChange={this.handleChange.bind(this,'note')}
-          handleSave={this.handleSave.bind(this)}/>
+          handleSave={this.handleSave.bind(this)}
+          handleDelete={this.handleDelete.bind(this)}
+          handleDone={this.handleDone.bind(this)}/>
+
+        </div>
       </div>
     );
   }
