@@ -4,18 +4,17 @@ import '../App.css'
 
 class TodoForm extends Component {
 
-
   render() {
     const {notes,count,countdone} = this.props
     console.log('Notesss', notes)
     const todoList = notes
     .map((msg) =>
-      <div className="noteList">{msg.note}
+      <div className="noteList">
+        <input className="checkboxDone" type="checkbox" onClick={this.props.handleDone.bind(this,msg)} />
+         <label className="chkLabel">{msg.note}</label>
           <br /><div className="buttons">
-            <button className="btn-done"
-              onClick={this.props.handleDone.bind(this,msg)}>DONE</button>
             <button className="btn-delete"
-              onClick={this.props.handleDelete}>REMOVE</button>
+              onClick={this.props.handleDelete.bind(this,msg)}>REMOVE</button>
           </div>
         </div>)
 

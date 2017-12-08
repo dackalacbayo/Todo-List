@@ -9,10 +9,10 @@ class App extends Component {
   state = {
     note: '',
     notes:[],
-    status:'',
     count:0,
     id:1,
-    countdone:0
+    countdone:0,
+    isChecked: true
   }
 
 
@@ -23,8 +23,8 @@ class App extends Component {
   handleSave(){
     var obj = {
       id:this.state.id,
-      status:'Active',
-      note:this.state.note
+      note:this.state.note,
+      isChecked:false
     }
 
     this.setState({
@@ -32,34 +32,52 @@ class App extends Component {
       note: '',
       count: this.state.count + 1,
       id: this.state.id + 1
-    })
-    }
+})
+}
 
-    handleDelete(i){
+    handleDelete(item){
       console.log(this.state.id)
         this.setState({
           count: this.state.count - 1
         })
 
+        if (this.state.count == 0){
+          return this.state.count
+        }
+
+        const deleteItem = this.state.notes
+        if(deleteItem.indexOf(item) > - 1){
+          deleteItem.splice(deleteItem.indexOf(item), 1)
+          this.setState({notes: deleteItem})
+        }
       }
 
     handleDone(data){
-      console.log('Dataaaaa',data)
-      console.log('Stat:',statdone)
+      console.log('isChecked??:',this.state.isChecked)
 
-      var statdone = this.state.notes
-      .map((msg)=> {
-          if(msg.id === data.id){
 
+      if (this.state.count == 0){
+        return this.state.count
+      }
+
+      const isChecked = this.state.isChecked
+
+        var newList = this.state.notes
+        .map(item => {
+          const isSelected = item.id === data.id
+          if (isSelected){ item.isChecked = !item.isChecked
+            return item
           }
-          return statdone
-      })
+        })
 
-      this.setState({
-        count: this.state.count - 1,
-        status:'Done',
-        countdone: this.state.countdone + 1
-      })
+        this.setState({
+          count: this.state.count - 1,
+          countdone: this.state.countdone + 1
+        })
+
+
+
+
     }
 
   render() {

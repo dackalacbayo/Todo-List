@@ -49,17 +49,31 @@
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
     font-family: century gothic;
-    }
+    font-weight: bold;
+}
+
+.xxx{
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
 
 .btn-done{
   margin-left: 30px;
   padding: 6px;
   border-radius: 3px;
+  background-color: #008CBA;
+  color: white;
+  border: 2px solid #f2f2f2;
+}
+
+.btn-done:hover{
+  background-color: #f2f2f2;
+  color: black;
 }
 
 .buttons{
   background-color: none;
-  margin-left: 355px;
+  margin-left: 435px;
   margin-top: -23px;
 }
 
@@ -67,6 +81,14 @@
   margin-left:3px;
   padding:6px;
   border-radius: 3px;
+  background-color: #f44336;
+  color: white;
+  border: 2px solid #f2f2f2;
+}
+
+.btn-delete:hover{
+  background-color: #f2f2f2;
+  color: black;
 }
 
 .notes{
@@ -86,6 +108,7 @@
   padding: 10px;
   border-radius: 5px;
   font-family: century gothic;
+  transition: background-color 0.5s ease;
 }
 
 table {
@@ -105,4 +128,12 @@ tr:nth-child(even){background-color: #f2f2f2}
 th {
     background-color: #999999;
     color: black;
+}
+
+input[type=checkbox]:checked + label {
+  color:#c2c2c2;
+  text-decoration: line-through;
+}
+.checkboxDone{
+  text-decoration: line-through;
 }
