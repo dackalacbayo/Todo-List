@@ -12,7 +12,8 @@ class App extends Component {
     count:0,
     id:1,
     countdone:0,
-    isChecked: true
+    isChecked: '',
+    totalChecked: 0
   }
 
 
@@ -26,24 +27,19 @@ class App extends Component {
       note:this.state.note,
       isChecked:false
     }
-
     this.setState({
       notes: this.state.notes.concat(obj),
       note: '',
       count: this.state.count + 1,
       id: this.state.id + 1
-})
-}
+    })
+
+  }
 
     handleDelete(item){
-      console.log(this.state.id)
         this.setState({
-          count: this.state.count - 1
+          count: this.state.notes.length - 1
         })
-
-        if (this.state.count == 0){
-          return this.state.count
-        }
 
         const deleteItem = this.state.notes
         if(deleteItem.indexOf(item) > - 1){
@@ -52,17 +48,12 @@ class App extends Component {
         }
       }
 
+
     handleDone(data){
-      console.log('isChecked??:',this.state.isChecked)
 
+    const isChecked = this.state.isChecked
 
-      if (this.state.count == 0){
-        return this.state.count
-      }
-
-      const isChecked = this.state.isChecked
-
-        var newList = this.state.notes
+      var newList = this.state.notes
         .map(item => {
           const isSelected = item.id === data.id
           if (isSelected){ item.isChecked = !item.isChecked
@@ -70,21 +61,36 @@ class App extends Component {
           }
         })
 
+        var totalChecked = this.state.notes.reduce(function(prev, next){
+         var addAmount = next.isChecked ? 1 : 0
+         prev += addAmount
+         return prev
+        },0)
+
+        var count = this.state.notes
         this.setState({
-          count: this.state.count - 1,
-          countdone: this.state.countdone + 1
+          totalChecked:this.state.totalChecked,
+          count:this.state.notes.length - totalChecked
         })
 
-
-
+        console.log("totalchecked: ", totalChecked)
+        console.log("Notess: ", this.state.notes)
 
     }
 
   render() {
+    var totalChecked = this.state.notes.reduce(function(prev, next){
+     var addAmount = next.isChecked ? 1 : 0
+     prev += addAmount
+     return prev
+    },0)
+
+
     console.log(this.state)
     return (
       <div className="App-container">
         <header className="App-header">
+          TO DO LIST
         </header>
 
         <div className="todos-container">
@@ -92,7 +98,8 @@ class App extends Component {
           notes = {this.state.notes}
           note = {this.state.note}
           count = {this.state.count}
-          countdone = {this.state.countdone}
+          itemsComplete = {this.state.totalChecked}
+          itemsLeft = {this.state.itemsLeft}
           handleChange={this.handleChange.bind(this,'note')}
           handleSave={this.handleSave.bind(this)}
           handleDelete={this.handleDelete.bind(this)}
